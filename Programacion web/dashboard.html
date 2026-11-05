@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PrestaTec | Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-page">
+  <header class="topbar">
+    <div class="brand"><img class="logo-img" src="logo.png" alt=""> PrestaTec</div>
+    <div class="topbar-right">
+      <button id="notificationsBtn" class="topbar-action" type="button" data-notifications aria-label="Ver solicitudes pendientes" title="Solicitudes pendientes">
+        <i class="fa-regular fa-bell" aria-hidden="true"></i>
+        <span id="notificationCount" class="notification-count" aria-live="polite" hidden>0</span>
+      </button>
+      <button id="themeToggle" class="topbar-action" type="button" data-theme-toggle aria-label="Activar modo oscuro" title="Activar modo oscuro" aria-pressed="false">
+        <i class="fa-solid fa-moon" aria-hidden="true"></i>
+      </button>
+      <span id="userName" class="muted"></span>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <nav id="tabs" class="tabs" aria-label="Secciones"></nav>
+      <button id="logoutBtn" class="sidebar-logout"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span>Salir</span></button>
+    </aside>
+
+    <main class="container workspace">
+    <section id="adminMetrics" class="kpi-grid" aria-label="Métricas de administración" hidden>
+      <article class="kpi-card">
+        <span class="kpi-icon kpi-amber"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i></span>
+        <div><h2>Solicitudes pendientes</h2><strong id="kpiPending">0</strong></div>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-icon kpi-blue"><i class="fa-solid fa-box" aria-hidden="true"></i></span>
+        <div><h2>Equipos prestados</h2><strong id="kpiBorrowed">0</strong></div>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-icon kpi-rose"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>
+        <div><h2>Devoluciones vencidas</h2><strong id="kpiOverdue">0</strong></div>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-icon kpi-emerald"><i class="fa-solid fa-users" aria-hidden="true"></i></span>
+        <div><h2>Total usuarios</h2><strong id="kpiUsers">0</strong></div>
+      </article>
+    </section>
+
+    <!-- SOLICITANTE: catálogo -->
+    <section id="view-catalogo" class="view">
+      <div class="section-head">
+        <h1>Catálogo de equipos</h1>
+        <input id="buscar" type="search" placeholder="Buscar laptop, proyector…">
+      </div>
+      <div id="catalogGrid" class="grid"></div>
+    </section>
+
+    <!-- SOLICITANTE: mis préstamos -->
+    <section id="view-mis" class="view" hidden>
+      <div class="section-head">
+        <h1 id="myLoansTitle">Préstamos</h1>
+        <button class="btn btn-primary" data-loan="">Nueva solicitud</button>
+      </div>
+      <div class="filter-tabs loan-status-tabs" role="tablist" aria-label="Filtrar mis solicitudes por estado">
+        <button class="filter-tab active" type="button" role="tab" data-my-loan-status="active" aria-selected="true">Activas</button>
+        <button class="filter-tab" type="button" role="tab" data-my-loan-status="returned" aria-selected="false">Finalizadas</button>
+        <button class="filter-tab" type="button" role="tab" data-my-loan-status="rejected" aria-selected="false">Rechazadas</button>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Equipo</th><th>Fecha y hora</th><th>Motivo</th><th>Estado</th><th>Acción</th></tr></thead>
+        <tbody id="myLoans"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ADMIN: solicitudes -->
+    <section id="view-solicitudes" class="view" hidden>
+      <div class="section-head">
+        <h1>Solicitudes pendientes</h1>
+      </div>
+      <div class="table-tools">
+        <label class="search-control">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="pendingLoansSearch" type="search" placeholder="Buscar solicitante, equipo, motivo…">
+        </label>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Solicitante</th><th>Rol</th><th>Equipo</th><th>Fecha y hora</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody id="pendingLoans"></tbody>
+      </table></div>
+      <div id="pendingPager" class="pagination" aria-label="Paginación de solicitudes pendientes"></div>
+      <div class="section-head">
+        <h2>Seguimiento de solicitudes</h2>
+      </div>
+      <div class="filter-tabs loan-status-tabs" role="tablist" aria-label="Filtrar solicitudes por estado">
+        <button class="filter-tab active" type="button" role="tab" data-loan-status="active" aria-selected="true">Activas</button>
+        <button class="filter-tab" type="button" role="tab" data-loan-status="returned" aria-selected="false">Finalizadas</button>
+        <button class="filter-tab" type="button" role="tab" data-loan-status="rejected" aria-selected="false">Rechazadas</button>
+      </div>
+      <div class="table-tools">
+        <label class="search-control">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="completedLoansSearch" type="search" placeholder="Buscar solicitante, equipo, estado…">
+        </label>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Solicitante</th><th>Rol</th><th>Equipo</th><th>Fecha y hora</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody id="completedLoans"></tbody>
+      </table></div>
+      <div id="completedPager" class="pagination" aria-label="Paginación de solicitudes en seguimiento"></div>
+    </section>
+
+    <!-- ADMIN: inventario -->
+    <section id="view-inventario" class="view" hidden>
+      <div class="section-head">
+        <h1>Inventario general</h1>
+        <button id="newEquipo" class="btn btn-primary">Dar de alta equipo</button>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Equipo</th><th>Categoría</th><th>Stock</th><th>Estado</th><th>Responsable</th><th>Acciones</th></tr></thead>
+        <tbody id="inventory"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ADMIN: usuarios -->
+    <section id="view-usuarios" class="view" hidden>
+      <div class="section-head">
+        <h1>Usuarios</h1>
+      </div>
+      <div class="table-tools user-table-tools">
+        <div class="filter-tabs" role="group" aria-label="Filtrar usuarios por rol">
+          <button class="filter-tab active" type="button" data-user-role="todos" aria-pressed="true">Todos</button>
+          <button class="filter-tab" type="button" data-user-role="alumno" aria-pressed="false">Alumnos</button>
+          <button class="filter-tab" type="button" data-user-role="docente" aria-pressed="false">Docentes</button>
+          <button class="filter-tab" type="button" data-user-role="admin" aria-pressed="false">Admins</button>
+        </div>
+        <label class="search-control">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="usersSearch" type="search" placeholder="Buscar por nombre, correo, teléfono…">
+        </label>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nombre Completo</th><th>Correo</th><th>Rol</th><th>Teléfono</th><th>Acciones</th></tr></thead>
+        <tbody id="users"></tbody>
+      </table></div>
+      <div id="usersPager" class="pagination" aria-label="Paginación de usuarios"></div>
+    </section>
+    </main>
+  </div>
+
+  <!-- Modal: solicitar préstamo -->
+  <dialog id="loanDialog">
+    <form id="loanForm" method="dialog">
+      <h2>Solicitar préstamo</h2>
+      <label for="loanSolicitante">Nombre del solicitante</label>
+      <input id="loanSolicitante" autocomplete="name" required>
+      <label for="loanEquipo">Equipo</label>
+      <select id="loanEquipo" required></select>
+      <label for="loanFecha">Fecha y hora</label>
+      <input id="loanFecha" type="datetime-local" required>
+      <label for="loanMotivo">Motivo del préstamo</label>
+      <textarea id="loanMotivo" rows="3" required></textarea>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal: editar o eliminar solicitud pendiente -->
+  <dialog id="editLoanDialog">
+    <form id="editLoanForm">
+      <h2>Editar solicitud</h2>
+      <input type="hidden" id="editLoanId">
+      <label for="editLoanSolicitante">Nombre del solicitante</label>
+      <input id="editLoanSolicitante" autocomplete="name" required>
+      <label for="editLoanEquipo">Equipo</label>
+      <select id="editLoanEquipo" required></select>
+      <label for="editLoanFecha">Fecha y hora</label>
+      <input id="editLoanFecha" type="datetime-local" required>
+      <label for="editLoanMotivo">Motivo del préstamo</label>
+      <textarea id="editLoanMotivo" rows="3" required></textarea>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-danger" data-loan-delete>Eliminar solicitud</button>
+        <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal: alta / edición de equipo -->
+  <dialog id="equipoDialog">
+    <form id="equipoForm" method="dialog">
+      <h2 id="equipoTitle">Dar de alta equipo</h2>
+      <input type="hidden" id="eqId">
+      <label for="eqNombre">Nombre</label>
+      <input id="eqNombre" required>
+      <label for="eqCategoria">Categoría</label>
+      <select id="eqCategoria">
+        <option>Laptop</option><option>Proyector</option><option>Herramienta</option><option>Otro</option>
+      </select>
+      <label for="eqEstado">Estado</label>
+      <select id="eqEstado">
+        <option>Disponible</option><option>Prestado</option><option>Agotado</option><option>Baja</option>
+      </select>
+      <label for="eqResp">Responsable / resguardo</label>
+      <input id="eqResp" placeholder="Ej. Almacén – Lab. de Cómputo">
+      <label for="eqStock">Stock disponible</label>
+      <input id="eqStock" type="number" min="0" step="1" required>
+      <div class="dialog-actions">
+        <button id="retireEquipo" type="button" class="btn btn-danger" data-baja hidden>Dar de baja</button>
+        <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal: edición de usuario -->
+  <dialog id="userDialog">
+    <form id="userForm">
+      <h2>Editar usuario</h2>
+      <input type="hidden" id="userId">
+      <label for="userNombre">Nombre completo</label>
+      <input id="userNombre" autocomplete="name" required>
+      <label for="userCorreo">Correo</label>
+      <input id="userCorreo" type="email" autocomplete="email" required>
+      <label for="userPassword">Nueva contraseña</label>
+      <input id="userPassword" type="password" autocomplete="new-password" minlength="4" placeholder="Dejar vacío para conservar la actual">
+      <label for="userRol">Rol</label>
+      <select id="userRol" required>
+        <option>Alumno</option><option>Docente</option><option>Admin</option>
+      </select>
+      <label for="userTelefono">Teléfono</label>
+      <input id="userTelefono" type="tel" autocomplete="tel" required>
+      <div class="dialog-actions">
+        <button id="deleteUser" type="button" class="btn btn-danger" data-user-delete>Eliminar usuario</button>
+        <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="detailDialog" class="detail-dialog" aria-labelledby="detailTitle">
+    <div class="detail-dialog-head">
+      <h2 id="detailTitle">Detalle</h2>
+      <button class="icon-btn" type="button" data-close aria-label="Cerrar detalle" title="Cerrar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div id="detailContent" class="detail-content"></div>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn-ghost" data-close>Cerrar</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

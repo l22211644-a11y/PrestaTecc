@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PrestaTec | Iniciar sesión</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-page">
+  <svg class="login-wave login-wave-top" viewBox="0 0 600 420" aria-hidden="true">
+    <path d="M0 0h600C470 92 365 116 260 83 153 50 91 92 0 212z" fill="#64b5f6" fill-opacity=".12"/>
+    <path d="M0 0h430C337 66 248 95 164 88 95 82 48 118 0 159z" fill="#fff" fill-opacity=".06"/>
+  </svg>
+  <svg class="login-wave login-wave-bottom" viewBox="0 0 650 320" aria-hidden="true">
+    <path d="M0 238c118-91 222-37 330-78 114-43 179-125 320-160v320H0z" fill="#7cc4ff" fill-opacity=".12"/>
+    <path d="M140 320c100-69 207-48 305-89 77-32 132-76 205-105v194z" fill="#fff" fill-opacity=".05"/>
+  </svg>
+
+  <main class="login-layout">
+    <section class="login-card" aria-label="Acceso a PrestaTec">
+      <header class="login-card-header">
+        <img class="logo-img login-card-logo" src="logo.png" alt="">
+        <div>
+          <h2>PrestaTec</h2>
+          <p>Instituto Tecnológico de Tijuana · Préstamo de equipo</p>
+        </div>
+      </header>
+
+      <form id="loginForm" novalidate>
+        <label for="correo">Correo institucional</label>
+        <div class="login-input-wrap">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          <input id="correo" name="correo" type="email" autocomplete="email" placeholder="ejemplo@ittijuana.edu.mx" required>
+        </div>
+
+        <label for="password">Contraseña</label>
+        <div class="login-input-wrap">
+          <i class="fa-solid fa-lock" aria-hidden="true"></i>
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Ingresa tu contraseña" required>
+        </div>
+
+        <p id="loginError" class="error" role="alert"></p>
+        <button type="submit" class="btn btn-primary btn-block login-submit">
+          <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Entrar
+        </button>
+      </form>
+
+      <form id="registerForm" hidden>
+        <label for="nombreCompleto">Nombre Completo</label>
+        <input id="nombreCompleto" name="nombreCompleto" autocomplete="name" required>
+
+        <label for="registerCorreo">Correo</label>
+        <input id="registerCorreo" name="correo" type="email" autocomplete="email" required>
+
+        <label for="registerPassword">Contraseña</label>
+        <input id="registerPassword" name="password" type="password" autocomplete="new-password" minlength="4" required>
+
+        <label for="registerRol">Rol</label>
+        <select id="registerRol" name="rol" required>
+          <option value="Alumno">Alumno</option>
+          <option value="Docente">Docente</option>
+        </select>
+
+        <label for="telefono">Teléfono</label>
+        <input id="telefono" name="telefono" type="tel" autocomplete="tel" required>
+
+        <p id="registerError" class="error" role="alert"></p>
+        <button type="submit" class="btn btn-primary btn-block login-submit">Registrarme</button>
+      </form>
+
+      <button id="toggleAuth" type="button" class="btn btn-ghost btn-block login-secondary">Crear una cuenta</button>
+      <p id="authHint" class="hint">Inicia sesión con tu correo institucional y contraseña.</p>
+    </section>
+
+    <aside class="login-illustration" aria-hidden="true">
+      <svg viewBox="0 0 460 380" role="presentation">
+        <g class="illustration-sparkles" fill="currentColor">
+          <path d="M112 75l7 19 19 7-19 7-7 19-7-19-19-7 19-7z"/>
+          <path d="M369 105l5 14 14 5-14 5-5 14-5-14-14-5 14-5z"/>
+          <circle cx="342" cy="65" r="4"/><circle cx="74" cy="159" r="4"/>
+        </g>
+        <g class="illustration-book" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M230 302c-40-29-92-38-156-27l18-132c56-9 103 1 138 30 35-29 82-39 138-30l18 132c-64-11-116-2-156 27z" stroke-width="13"/>
+          <path d="M230 173v129M108 178c42-4 77 6 105 27m139-27c-42-4-77 6-105 27M104 218c42-4 77 6 105 27m147-27c-42-4-77 6-105 27" stroke-width="8"/>
+        </g>
+        <g class="illustration-cap" fill="currentColor">
+          <path d="M230 54 91 112l139 58 139-58z"/>
+          <path d="M143 134v47c48 34 126 34 174 0v-47l-87 36z"/>
+          <path d="m353 122 13 6v53h-11v-48l-2-1z"/>
+          <circle cx="360" cy="187" r="9"/>
+        </g>
+        <path class="illustration-orbit" d="M59 282c19 65 87 105 167 105 85 0 160-43 179-111" fill="none" stroke="currentColor" stroke-opacity=".32" stroke-width="2"/>
+      </svg>
+    </aside>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
